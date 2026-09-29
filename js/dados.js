@@ -5,7 +5,7 @@ export const livros = [
         autor: "J.R.R. Tolkien",
         categoria: "Fantasia",
         disponivel: true,
-        imagem: "https://covers.openlibrary.org/b/isbn/9780261102217-L.jpg"
+        imagem: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2OAeEPw_tkGWZfIt7FpKG0iEtlonS4VsAfRMqRBT4ng&s=10"
     },
     {
         id: 2,
@@ -21,7 +21,7 @@ export const livros = [
         autor: "Machado de Assis",
         categoria: "Romance",
         disponivel: true,
-        imagem: "https://covers.openlibrary.org/b/isbn/9788594318604-L.jpg"
+        imagem: "https://m.media-amazon.com/images/I/810IAPcQmoL._UF1000,1000_QL80_.jpg"
     },
     {
         id: 4,
