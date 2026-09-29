@@ -108,3 +108,37 @@ function buscarLivrosPorCategoria(categoria) {
 
     return livrosEncontrados;
 }
+
+const divLivros = document.querySelector(".livros");
+
+livros.forEach(livro => {
+    const divLivro = document.createElement("div");
+
+    const titulo = document.createElement("h2");
+    titulo.textContent = livro.titulo;
+
+    const autor = document.createElement("p");
+    autor.textContent = livro.autor;
+
+    const categoria = document.createElement("p");
+    categoria.textContent = livro.categoria;
+
+    const disponivel = document.createElement("p");
+    if (livro.disponivel === true) {
+        disponivel.textContent = "Disponível";
+    } else {
+        disponivel.textContent = "Indisponível";
+    }
+
+    const imagem = document.createElement("img");
+    imagem.src = livro.imagem;
+    imagem.alt = livro.titulo;
+
+    divLivro.appendChild(titulo);
+    divLivro.appendChild(autor);
+    divLivro.appendChild(categoria);
+    divLivro.appendChild(disponivel);
+    divLivro.appendChild(imagem);
+
+    divLivros.appendChild(divLivro);
+});
