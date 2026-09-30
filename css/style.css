@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    font-family: "Montserrat", sans-serif;
+}
+
+.container {
+    width: 100%;
+    max-width: 90%;
+    margin: 0 auto;
+    height: 60px;
+}
+
+header {
+    background-color: rgb(41, 55, 75);
+    display: flex;
+    align-items: center;
+}
+
+.div-logo {
+    display: flex;
+    align-items: center;
+}
+
+.div-logo>img {
+    width: 35px;
+    margin-right: 10px;
+}
+
+.div-logo>p {
+    color: white;
+    font-size: 26px;
+    font-weight: 500;
+}
+
+.div-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.div-busca {
+    display: flex;
+    background-color: rgb(41, 55, 75);
+    border: 1px solid #bdbdbd;
+    height: 40px;
+    border-radius: 10px;
+    align-items: center;
+    width: 250px;
+}
+
+.div-busca>img {
+    width: 25px;
+    height: 25px;
+    margin: 0 10px;
+}
+
+.div-busca>input {
+    border: none;
+    height: 30px;
+    background-color: rgb(41, 55, 75);
+    color: #bdbdbd;
+}
+
+.div-busca>input::placeholder {
+    color: #bdbdbd;
+}
+
+.div-busca>input:focus {
+    outline: none;
+}
