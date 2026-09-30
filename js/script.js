@@ -130,11 +130,16 @@ livros.forEach(livro => {
     const categoria = document.createElement("p");
     categoria.textContent = livro.categoria;
 
+    const divDisponibilidade = document.createElement("div");
+    divDisponibilidade.className = "div-disponibilidade"
+
     const disponivel = document.createElement("p");
     if (livro.disponivel === true) {
-        disponivel.textContent = "Disponível";
+        disponivel.innerHTML = "<span class='bolinha'>&bull;</span> Disponível";
+        disponivel.className = "p-disponivel";
     } else {
-        disponivel.textContent = "Indisponível";
+        disponivel.innerHTML = "<span class='bolinha'>&bull;</span> Indisponível";
+        disponivel.className = "p-indisponivel"
     }
 
     const imagem = document.createElement("img");
@@ -154,7 +159,9 @@ livros.forEach(livro => {
 
     divLivro.appendChild(hr);
 
-    divLivro.appendChild(disponivel);
+    divDisponibilidade.appendChild(disponivel)
+
+    divLivro.appendChild(divDisponibilidade);
 
     divLivros.appendChild(divLivro);
 });
