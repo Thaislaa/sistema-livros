@@ -35,7 +35,7 @@ header {
 
 .div-logo>p {
     color: white;
-    font-size: 26px;
+    font-size: 24px;
     font-weight: 500;
 }
 
@@ -111,7 +111,6 @@ header {
 }
 
 .card>p {
-    color: rgb(138, 144, 162);
     font-weight: 500;
     margin-bottom: 10px;
 }
@@ -134,6 +133,30 @@ header {
     margin: 15px 0;
     border: none;
     border: 1px solid rgb(247, 245, 245);
+}
+
+.p-disponivel {
+    color: #0CA25E;
+    display: flex;
+    align-items: center;
+}
+
+.p-indisponivel {
+    color: #a20c0c;
+    display: flex;
+    align-items: center;
+}
+
+.div-disponibilidade>p {
+    display: flex;
+    align-items: center;
+    height: 15px;
+}
+
+.bolinha {
+    font-size: 60px;
+    margin-top: -8px;
+    margin-right: 10px;
 }
 
 @media (min-width: 980px) and (max-width: 1300px) {
