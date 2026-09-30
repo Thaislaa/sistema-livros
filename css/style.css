@@ -95,7 +95,14 @@ header {
 }
 
 .card>img {
-    width: 100%;
+    width: 500px;
+    height: 450px;
+    max-width: 100%;
+}
+
+.card>h2 {
+    margin-top: 10px;
+    height: 85px;
 }
 
 .card>h3 {
@@ -127,4 +134,49 @@ header {
     margin: 15px 0;
     border: none;
     border: 1px solid rgb(247, 245, 245);
+}
+
+@media (min-width: 980px) and (max-width: 1300px) {
+    .card>h2 {
+        font-size: 1.2em;
+    }
+
+    .card>img {
+        height: 250px;
+    }
+}
+
+@media (max-width: 1300px) and (min-width: 800px) {
+    .livros {
+        grid-template-columns: repeat(auto-fit, minmax(150px, calc(33% - 13px)));
+    }
+
+    .card>img {
+        height: 300px;
+    }
+
+    .card>h2 {
+        font-size: 1.2em;
+        height: 60px;
+    }
+}
+
+@media (max-width: 801px) {
+    .livros {
+        justify-content: center;
+        grid-template-columns: repeat(auto-fit, minmax(150px, calc(70% - 13px)));
+    }
+
+    .div-logo>p {
+        display: none;
+    }
+
+    .card>img {
+        height: auto;
+    }
+
+    .card>h2 {
+        height: auto;
+        margin-bottom: 10px;
+    }
 }
