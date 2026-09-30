@@ -6,6 +6,10 @@
     font-family: "Montserrat", sans-serif;
 }
 
+body {
+    background-color: rgb(243, 246, 248);
+}
+
 .container {
     width: 100%;
     max-width: 90%;
@@ -70,4 +74,57 @@ header {
 
 .div-busca>input:focus {
     outline: none;
+}
+
+.div-txt-inicial {
+    margin: 40px 0;
+}
+
+.livros {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, calc(20% - 13px)));
+    justify-content: space-between;
+}
+
+.card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.card>img {
+    width: 100%;
+}
+
+.card>h3 {
+    margin: 10px 0;
+    color: #1D2F47;
+}
+
+.card>p {
+    color: rgb(138, 144, 162);
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.div-categoria {
+    display: flex;
+    align-items: center;
+}
+
+.div-categoria>img {
+    width: 25px;
+    margin-right: 5px;
+}
+
+.div-categoria>p {
+    color: #434343;
+}
+
+.card>hr {
+    margin: 15px 0;
+    border: none;
+    border: 1px solid rgb(247, 245, 245);
 }

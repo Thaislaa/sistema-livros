@@ -113,12 +113,19 @@ const divLivros = document.querySelector(".livros");
 
 livros.forEach(livro => {
     const divLivro = document.createElement("div");
+    divLivro.className = "card";
 
     const titulo = document.createElement("h2");
     titulo.textContent = livro.titulo;
 
     const autor = document.createElement("p");
     autor.textContent = livro.autor;
+
+    const divCategoria = document.createElement("div");
+    divCategoria.className = "div-categoria";
+
+    const imgCategoria = document.createElement("img");
+    imgCategoria.src = "img/icon-livro.png";
 
     const categoria = document.createElement("p");
     categoria.textContent = livro.categoria;
@@ -134,11 +141,20 @@ livros.forEach(livro => {
     imagem.src = livro.imagem;
     imagem.alt = livro.titulo;
 
+    const hr = document.createElement("hr");
+
+    divLivro.appendChild(imagem);
     divLivro.appendChild(titulo);
     divLivro.appendChild(autor);
-    divLivro.appendChild(categoria);
+
+    divCategoria.appendChild(imgCategoria);
+    divCategoria.appendChild(categoria);
+
+    divLivro.appendChild(divCategoria);
+
+    divLivro.appendChild(hr);
+
     divLivro.appendChild(disponivel);
-    divLivro.appendChild(imagem);
 
     divLivros.appendChild(divLivro);
 });
