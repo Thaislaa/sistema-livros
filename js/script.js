@@ -65,22 +65,12 @@ function devolverLivro(id) {
 // FUNÇÃO DE BUSCAR LIVROS POR TÍTULO
 function buscarLivrosPorTitulo(titulo) {
     const livrosEncontrados = livros.filter(livro => livro.titulo.toLowerCase().includes(titulo.toLowerCase()));
-
-    if (livrosEncontrados.length === 0) {
-        return [];
-    }
-
     return livrosEncontrados;
 }
 
 // FUNÇÃO DE BUSCAR LIVROS POR AUTOR
 function buscarLivrosPorAutor(autor) {
     const livrosEncontrados = livros.filter(livro => livro.autor.toLowerCase().includes(autor.toLowerCase()));
-
-    if (livrosEncontrados.length === 0) {
-        console.log("Nenhum livro desse autor foi encontrado.");
-        return false;
-    }
 
     return livrosEncontrados;
 }
@@ -97,12 +87,21 @@ function buscarLivrosPorCategoria(categoria) {
     return livrosEncontrados;
 }
 
-const divLivros = document.querySelector(".livros");
+// FUNÇÃO DE BUSCAR LIVROS POR AUTOR OU TÍTULO
+function buscarLivros(texto) {
+    const listaLivrosTitulo = buscarLivrosPorTitulo(texto);
+    const listaLivrosAutor = buscarLivrosPorAutor(texto);
 
-const divInfos = document.querySelector(".div-txt-inicial");
+    const listaLivros = [...listaLivrosTitulo, ...listaLivrosAutor];
 
-const divMensagemNaoEncontrado = document.querySelector(".div-mensagem-nao-encontrado");
+    const listaLivrosSemDuplicados = listaLivros.filter((livro, index) => {
+        return listaLivros.findIndex(livroEncontrado => livroEncontrado.id === livro.id) === index;
+    });
 
+    return listaLivrosSemDuplicados;
+}
+
+// FUNÇÃO QUE MOSTRA A LISTA DE LIVROS NA PÁGINA
 function exibirLivros(listaLivros) {
     divLivros.innerHTML = "";
 
@@ -164,21 +163,24 @@ function exibirLivros(listaLivros) {
     });
 }
 
+const divLivros = document.querySelector(".livros");
+const divMensagemNaoEncontrado = document.querySelector(".div-mensagem-nao-encontrado");
+const txtBusca = document.querySelector("#txtBusca");
+
 exibirLivros(livros);
 
-const txtBusca = document.querySelector("#txtBusca");
 txtBusca.addEventListener("input", () => {
 
     if (txtBusca.value.trim() === "") {
         exibirLivros(livros);
     } else {
-        const novaLista = buscarLivrosPorTitulo(txtBusca.value);
+        const novaLista = buscarLivros(txtBusca.value);
 
         exibirLivros(novaLista);
 
         if (novaLista.length === 0) {
             const mensagem = document.createElement("p");
-            mensagem.textContent = "Nenhum livro com esse título foi encontrado.";
+            mensagem.textContent = "Nenhum livro foi encontrado.";
 
             divMensagemNaoEncontrado.appendChild(mensagem);
         }
