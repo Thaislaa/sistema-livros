@@ -168,13 +168,20 @@ exibirLivros(livros);
 
 const txtBusca = document.querySelector("#txtBusca");
 txtBusca.addEventListener("input", () => {
-    const novaLista = buscarLivrosPorTitulo(txtBusca.value);
-    exibirLivros(novaLista);
 
-    if (novaLista.length === 0) {
-        const mensagem = document.createElement("p");
-        mensagem.textContent = "Nenhum livro com esse título foi encontrado.";
+    if (txtBusca.value.trim() === "") {
+        exibirLivros(livros);
+    } else {
+        const novaLista = buscarLivrosPorTitulo(txtBusca.value);
 
-        divMensagemNaoEncontrado.appendChild(mensagem);
+        exibirLivros(novaLista);
+
+        if (novaLista.length === 0) {
+            const mensagem = document.createElement("p");
+            mensagem.textContent = "Nenhum livro com esse título foi encontrado.";
+
+            divMensagemNaoEncontrado.appendChild(mensagem);
+        }
+
     }
 });
