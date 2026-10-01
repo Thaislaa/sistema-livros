@@ -83,7 +83,7 @@ header {
 .livros {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, calc(20% - 13px)));
-    justify-content: space-between;
+    gap: 13px;
 }
 
 .card {
@@ -157,6 +157,10 @@ header {
     font-size: 60px;
     margin-top: -8px;
     margin-right: 10px;
+}
+
+.div-mensagem-nao-encontrado {
+    margin-top: 20px;
 }
 
 @media (min-width: 980px) and (max-width: 1300px) {

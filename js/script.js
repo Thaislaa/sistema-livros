@@ -1,16 +1,5 @@
 import { livros } from "./dados.js";
 
-// FUNÇÃO DE LISTAR TODOS OS LIVROS
-function listarLivros() {
-    return livros.forEach(livro => {
-        let disponibilidade = "Indisponível";
-        if (livro.disponivel) {
-            disponibilidade = "Disponível";
-        }
-        console.log(`${livro.titulo} - ${livro.autor} - ${livro.categoria} - ${disponibilidade}`);
-    });
-}
-
 // FUNÇÃO DE LISTAR LIVROS DISPONÍVEIS
 function listarLivrosDisponiveis() {
     const livrosDisponiveis = livros.filter(livro => livro.disponivel);
@@ -78,8 +67,7 @@ function buscarLivrosPorTitulo(titulo) {
     const livrosEncontrados = livros.filter(livro => livro.titulo.toLowerCase().includes(titulo.toLowerCase()));
 
     if (livrosEncontrados.length === 0) {
-        console.log("Nenhum livro com esse título foi encontrado.");
-        return false;
+        return [];
     }
 
     return livrosEncontrados;
@@ -111,57 +99,82 @@ function buscarLivrosPorCategoria(categoria) {
 
 const divLivros = document.querySelector(".livros");
 
-livros.forEach(livro => {
-    const divLivro = document.createElement("div");
-    divLivro.className = "card";
+const divInfos = document.querySelector(".div-txt-inicial");
 
-    const titulo = document.createElement("h2");
-    titulo.textContent = livro.titulo;
+const divMensagemNaoEncontrado = document.querySelector(".div-mensagem-nao-encontrado");
 
-    const autor = document.createElement("p");
-    autor.textContent = livro.autor;
+function exibirLivros(listaLivros) {
+    divLivros.innerHTML = "";
 
-    const divCategoria = document.createElement("div");
-    divCategoria.className = "div-categoria";
+    divMensagemNaoEncontrado.innerHTML = "";
 
-    const imgCategoria = document.createElement("img");
-    imgCategoria.src = "img/icon-livro.png";
+    listaLivros.forEach(livro => {
+        const divLivro = document.createElement("div");
+        divLivro.className = "card";
 
-    const categoria = document.createElement("p");
-    categoria.textContent = livro.categoria;
+        const titulo = document.createElement("h2");
+        titulo.textContent = livro.titulo;
 
-    const divDisponibilidade = document.createElement("div");
-    divDisponibilidade.className = "div-disponibilidade"
+        const autor = document.createElement("p");
+        autor.textContent = livro.autor;
 
-    const disponivel = document.createElement("p");
-    if (livro.disponivel === true) {
-        disponivel.innerHTML = "<span class='bolinha'>&bull;</span> Disponível";
-        disponivel.className = "p-disponivel";
-    } else {
-        disponivel.innerHTML = "<span class='bolinha'>&bull;</span> Indisponível";
-        disponivel.className = "p-indisponivel"
+        const divCategoria = document.createElement("div");
+        divCategoria.className = "div-categoria";
+
+        const imgCategoria = document.createElement("img");
+        imgCategoria.src = "img/icon-livro.png";
+
+        const categoria = document.createElement("p");
+        categoria.textContent = livro.categoria;
+
+        const divDisponibilidade = document.createElement("div");
+        divDisponibilidade.className = "div-disponibilidade"
+
+        const disponivel = document.createElement("p");
+        if (livro.disponivel === true) {
+            disponivel.innerHTML = "<span class='bolinha'>&bull;</span> Disponível";
+            disponivel.className = "p-disponivel";
+        } else {
+            disponivel.innerHTML = "<span class='bolinha'>&bull;</span> Indisponível";
+            disponivel.className = "p-indisponivel"
+        }
+
+        const imagem = document.createElement("img");
+        imagem.src = livro.imagem;
+        imagem.alt = livro.titulo;
+
+        const hr = document.createElement("hr");
+
+        divLivro.appendChild(imagem);
+        divLivro.appendChild(titulo);
+        divLivro.appendChild(autor);
+
+        divCategoria.appendChild(imgCategoria);
+        divCategoria.appendChild(categoria);
+
+        divLivro.appendChild(divCategoria);
+
+        divLivro.appendChild(hr);
+
+        divDisponibilidade.appendChild(disponivel)
+
+        divLivro.appendChild(divDisponibilidade);
+
+        divLivros.appendChild(divLivro);
+    });
+}
+
+exibirLivros(livros);
+
+const txtBusca = document.querySelector("#txtBusca");
+txtBusca.addEventListener("input", () => {
+    const novaLista = buscarLivrosPorTitulo(txtBusca.value);
+    exibirLivros(novaLista);
+
+    if (novaLista.length === 0) {
+        const mensagem = document.createElement("p");
+        mensagem.textContent = "Nenhum livro com esse título foi encontrado.";
+
+        divMensagemNaoEncontrado.appendChild(mensagem);
     }
-
-    const imagem = document.createElement("img");
-    imagem.src = livro.imagem;
-    imagem.alt = livro.titulo;
-
-    const hr = document.createElement("hr");
-
-    divLivro.appendChild(imagem);
-    divLivro.appendChild(titulo);
-    divLivro.appendChild(autor);
-
-    divCategoria.appendChild(imgCategoria);
-    divCategoria.appendChild(categoria);
-
-    divLivro.appendChild(divCategoria);
-
-    divLivro.appendChild(hr);
-
-    divDisponibilidade.appendChild(disponivel)
-
-    divLivro.appendChild(divDisponibilidade);
-
-    divLivros.appendChild(divLivro);
 });
