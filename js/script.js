@@ -79,11 +79,6 @@ function buscarLivrosPorAutor(autor) {
 function buscarLivrosPorCategoria(categoria) {
     const livrosEncontrados = livros.filter(livro => livro.categoria.toLowerCase().includes(categoria.toLowerCase()));
 
-    if (livrosEncontrados.length === 0) {
-        console.log("Nenhum livro nessa categoria foi encontrado.");
-        return false;
-    }
-
     return livrosEncontrados;
 }
 
@@ -166,6 +161,7 @@ function exibirLivros(listaLivros) {
 const divLivros = document.querySelector(".livros");
 const divMensagemNaoEncontrado = document.querySelector(".div-mensagem-nao-encontrado");
 const txtBusca = document.querySelector("#txtBusca");
+const selectCategoria = document.querySelector("#selectCategoria");
 
 exibirLivros(livros);
 
@@ -185,5 +181,15 @@ txtBusca.addEventListener("input", () => {
             divMensagemNaoEncontrado.appendChild(mensagem);
         }
 
+    }
+});
+
+selectCategoria.addEventListener("change", () => {
+    if (selectCategoria.value === "") {
+        exibirLivros(livros);
+    } else {
+        const novaLista = buscarLivrosPorCategoria(selectCategoria.value);
+
+        exibirLivros(novaLista);
     }
 });
