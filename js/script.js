@@ -133,16 +133,12 @@ function exibirLivros(listaLivros) {
 
         const hr = document.createElement("hr");
 
-        const btnEmprestar = document.createElement("button");
-        btnEmprestar.textContent = "Emprestar";
-        btnEmprestar.dataset.id = livro.id;
-        btnEmprestar.classList.add("btn-emprestar");
+        const btnAcaoLivro = document.createElement("button");
+        btnAcaoLivro.textContent = livro.disponivel ? "Emprestar" : "Devolver";
+        btnAcaoLivro.dataset.id = livro.id;
+        btnAcaoLivro.classList.add("btn-emprestar");
 
-        if (!livro.disponivel) {
-            btnEmprestar.style.display = "none";
-        }
-
-        divLivro.appendChild(btnEmprestar);
+        divLivro.appendChild(btnAcaoLivro);
 
         divLivro.appendChild(imagem);
         divLivro.appendChild(titulo);
@@ -161,8 +157,12 @@ function exibirLivros(listaLivros) {
 
         divLivros.appendChild(divLivro);
 
-        btnEmprestar.addEventListener("click", () => {
-            emprestarLivro(Number(btnEmprestar.dataset.id));
+        btnAcaoLivro.addEventListener("click", () => {
+            if (btnAcaoLivro.textContent === "Emprestar") {
+                emprestarLivro(Number(btnAcaoLivro.dataset.id));
+            } else if (btnAcaoLivro.textContent === "Devolver") {
+                devolverLivro(Number(btnAcaoLivro.dataset.id));
+            }
             exibirLivros(livros);
         });
     });
