@@ -10,11 +10,6 @@ function listarLivrosDisponiveis() {
 function obterLivroPorId(id) {
     const livro = livros.find(livro => livro.id === id);
 
-    if (!livro) {
-        console.log("Livro não encontrado.");
-        return false;
-    }
-
     return livro;
 }
 
@@ -41,7 +36,6 @@ function emprestarLivro(id) {
     if (livroDisponivel) {
         const posicaoLivro = livros.findIndex(livro => livro.id === id);
         livros[posicaoLivro].disponivel = false;
-        console.log(livros[posicaoLivro]);
     }
 }
 
@@ -139,6 +133,17 @@ function exibirLivros(listaLivros) {
 
         const hr = document.createElement("hr");
 
+        const btnEmprestar = document.createElement("button");
+        btnEmprestar.textContent = "Emprestar";
+        btnEmprestar.dataset.id = livro.id;
+        btnEmprestar.classList.add("btn-emprestar");
+
+        if (!livro.disponivel) {
+            btnEmprestar.style.display = "none";
+        }
+
+        divLivro.appendChild(btnEmprestar);
+
         divLivro.appendChild(imagem);
         divLivro.appendChild(titulo);
         divLivro.appendChild(autor);
@@ -155,6 +160,11 @@ function exibirLivros(listaLivros) {
         divLivro.appendChild(divDisponibilidade);
 
         divLivros.appendChild(divLivro);
+
+        btnEmprestar.addEventListener("click", () => {
+            emprestarLivro(Number(btnEmprestar.dataset.id));
+            exibirLivros(livros);
+        });
     });
 }
 

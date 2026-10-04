@@ -163,6 +163,10 @@ header {
     margin-top: 20px;
 }
 
+.btn-emprestar {
+    position: absolute;
+}
+
 @media (min-width: 980px) and (max-width: 1300px) {
     .card>h2 {
         font-size: 1.2em;
