@@ -24,7 +24,6 @@ function obterLivroDisponivelPorId(id) {
     if (livro.disponivel === true) {
         return livro;
     } else if (livro.disponivel === false) {
-        console.log("Livro não disponível");
         return false;
     }
 }
@@ -44,12 +43,10 @@ function devolverLivro(id) {
     const posicaoLivro = livros.findIndex(livro => livro.id === id);
 
     if (posicaoLivro === -1) {
-        console.log("Livro não encontrado.");
         return false;
     }
 
     if (livros[posicaoLivro].disponivel === true) {
-        console.log("O livro não pode ser devolvido pois ele está disponível.");
         return false;
     }
 
@@ -88,6 +85,21 @@ function buscarLivros(texto) {
     });
 
     return listaLivrosSemDuplicados;
+}
+
+// FUNÇÃO QUE BUSCA POR TEXTO (TÍTULO E AUTOR) E CATEGORIA 
+function buscarLivrosTextoCategoria(texto, categoria) {
+    const listaLivros = buscarLivros(texto);
+
+    const listaLivrosFiltrados = [];
+
+    listaLivros.forEach(livro => {
+        if (livro.categoria === categoria) {
+            listaLivrosFiltrados.push(livro);
+        }
+    });
+
+    return listaLivrosFiltrados;
 }
 
 // FUNÇÃO QUE MOSTRA A LISTA DE LIVROS NA PÁGINA
@@ -168,6 +180,28 @@ function exibirLivros(listaLivros) {
     });
 }
 
+// FUNÇÃO QUE VERIFICA FILTROS DE PESQUISA
+function verificaFiltrosDePesquisa() {
+    if (selectCategoria.value === "" && txtBusca.value.trim() === "") {
+        listaAtual = livros;
+    } else if (selectCategoria.value === "" && txtBusca.value.trim() !== "") {
+        listaAtual = buscarLivros(txtBusca.value);
+    } else if (selectCategoria.value !== "" && txtBusca.value.trim() === "") {
+        listaAtual = buscarLivrosPorCategoria(selectCategoria.value);
+    } else if (selectCategoria.value !== "" && txtBusca.value.trim() !== "") {
+        listaAtual = buscarLivrosTextoCategoria(txtBusca.value, selectCategoria.value);
+    }
+
+    exibirLivros(listaAtual);
+
+    if (listaAtual.length === 0) {
+        const mensagem = document.createElement("p");
+        mensagem.textContent = "Nenhum livro foi encontrado.";
+
+        divMensagemNaoEncontrado.appendChild(mensagem);
+    }
+}
+
 const divLivros = document.querySelector(".livros");
 const divMensagemNaoEncontrado = document.querySelector(".div-mensagem-nao-encontrado");
 const txtBusca = document.querySelector("#txtBusca");
@@ -177,30 +211,9 @@ let listaAtual = livros;
 exibirLivros(livros);
 
 txtBusca.addEventListener("input", () => {
-
-    if (txtBusca.value.trim() === "") {
-        listaAtual = livros;
-        exibirLivros(listaAtual);
-    } else {
-        listaAtual = buscarLivros(txtBusca.value);
-        exibirLivros(listaAtual);
-
-        if (listaAtual.length === 0) {
-            const mensagem = document.createElement("p");
-            mensagem.textContent = "Nenhum livro foi encontrado.";
-
-            divMensagemNaoEncontrado.appendChild(mensagem);
-        }
-
-    }
+    verificaFiltrosDePesquisa();
 });
 
 selectCategoria.addEventListener("change", () => {
-    if (selectCategoria.value === "") {
-        listaAtual = livros;
-        exibirLivros(listaAtual);
-    } else {
-        listaAtual = buscarLivrosPorCategoria(selectCategoria.value);
-        exibirLivros(listaAtual);
-    }
+    verificaFiltrosDePesquisa();
 });
