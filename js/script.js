@@ -207,6 +207,7 @@ const divMensagemNaoEncontrado = document.querySelector(".div-mensagem-nao-encon
 const txtBusca = document.querySelector("#txtBusca");
 const selectCategoria = document.querySelector("#selectCategoria");
 let listaAtual = livros;
+const btnLimparFiltros = document.querySelector("#btnLimparFiltros");
 
 exibirLivros(livros);
 
@@ -215,5 +216,11 @@ txtBusca.addEventListener("input", () => {
 });
 
 selectCategoria.addEventListener("change", () => {
+    verificaFiltrosDePesquisa();
+});
+
+btnLimparFiltros.addEventListener("click", () => {
+    txtBusca.value = "";
+    selectCategoria.value = "";
     verificaFiltrosDePesquisa();
 });
