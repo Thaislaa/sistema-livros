@@ -163,7 +163,7 @@ function exibirLivros(listaLivros) {
             } else if (btnAcaoLivro.textContent === "Devolver") {
                 devolverLivro(Number(btnAcaoLivro.dataset.id));
             }
-            exibirLivros(livros);
+            exibirLivros(listaAtual);
         });
     });
 }
@@ -172,19 +172,20 @@ const divLivros = document.querySelector(".livros");
 const divMensagemNaoEncontrado = document.querySelector(".div-mensagem-nao-encontrado");
 const txtBusca = document.querySelector("#txtBusca");
 const selectCategoria = document.querySelector("#selectCategoria");
+let listaAtual = livros;
 
 exibirLivros(livros);
 
 txtBusca.addEventListener("input", () => {
 
     if (txtBusca.value.trim() === "") {
-        exibirLivros(livros);
+        listaAtual = livros;
+        exibirLivros(listaAtual);
     } else {
-        const novaLista = buscarLivros(txtBusca.value);
+        listaAtual = buscarLivros(txtBusca.value);
+        exibirLivros(listaAtual);
 
-        exibirLivros(novaLista);
-
-        if (novaLista.length === 0) {
+        if (listaAtual.length === 0) {
             const mensagem = document.createElement("p");
             mensagem.textContent = "Nenhum livro foi encontrado.";
 
@@ -196,10 +197,10 @@ txtBusca.addEventListener("input", () => {
 
 selectCategoria.addEventListener("change", () => {
     if (selectCategoria.value === "") {
-        exibirLivros(livros);
+        listaAtual = livros;
+        exibirLivros(listaAtual);
     } else {
-        const novaLista = buscarLivrosPorCategoria(selectCategoria.value);
-
-        exibirLivros(novaLista);
+        listaAtual = buscarLivrosPorCategoria(selectCategoria.value);
+        exibirLivros(listaAtual);
     }
 });
