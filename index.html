@@ -49,6 +49,32 @@
         <div class="div-mensagem-nao-encontrado"></div>
 
         <div class="livros"></div>
+
+        <div class="formulario">
+            <h3>Cadastro de Livros</h3>
+            <form action="">
+                <label for="titulo">Título do livro</label>
+                <input type="text" id="titulo" name="titulo" required>
+
+                <label for="autor">Autor do livro</label>
+                <input type="text" id="autor" name="autor" required>
+
+                <label for="categoria">Selecione uma categoria</label>
+                <select id="categoria" name="categoria" required>
+                    <option value="" disabled selected></option>
+                    <option value="Fantasia">Fantasia</option>
+                    <option value="Ficção">Ficção</option>
+                    <option value="Romance">Romance</option>
+                    <option value="Infantil">Infantil</option>
+                    <option value="Suspense">Suspense</option>
+                </select>
+
+                <label for="urlImagem">URL da imagem</label>
+                <input type="url" id="urlImagem" name="imagem" required>
+
+                <button type="submit">Cadastrar Livro</button>
+            </form>
+        </div>
     </main>
     <script type="module" src="js/script.js"></script>
 </body>
