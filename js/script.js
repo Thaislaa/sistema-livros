@@ -278,6 +278,12 @@ let listaAtual = livros;
 const btnLimparFiltros = document.querySelector("#btnLimparFiltros");
 const selectDisponibilidade = document.querySelector("#selectDisponibilidade");
 
+const form = document.querySelector("form");
+const titulo = document.querySelector("#titulo");
+const autor = document.querySelector("#autor");
+const categoria = document.querySelector("#categoria");
+const imagem = document.querySelector("#urlImagem");
+
 exibirLivros(livros);
 
 txtBusca.addEventListener("input", () => {
@@ -297,4 +303,28 @@ btnLimparFiltros.addEventListener("click", () => {
 
 selectDisponibilidade.addEventListener("change", () => {
     verificaFiltrosDePesquisa();
+});
+
+form.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const tituloLivro = titulo.value;
+    const autorLivro = autor.value;
+    const categoriaLivro = categoria.value;
+    const imagemLivro = imagem.value;
+
+    const novoLivro = {
+        id: livros.length + 1,
+        titulo: tituloLivro,
+        autor: autorLivro,
+        categoria: categoriaLivro,
+        disponivel: true,
+        imagem: imagemLivro
+    }
+
+    livros.push(novoLivro);
+
+    exibirLivros(livros);
+
+    form.reset();
 });
