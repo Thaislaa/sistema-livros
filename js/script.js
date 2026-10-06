@@ -1,9 +1,15 @@
 import { livros } from "./dados.js";
 
 // FUNÇÃO DE LISTAR LIVROS DISPONÍVEIS
-function listarLivrosDisponiveis() {
+function buscarLivrosDisponiveis() {
     const livrosDisponiveis = livros.filter(livro => livro.disponivel);
     return livrosDisponiveis;
+}
+
+// FUNÇÃO DE LISTAR LIVROS EMPRESTADOS
+function buscarLivrosEmprestados() {
+    const livrosEmprestados = livros.filter(livro => livro.disponivel === false);
+    return livrosEmprestados;
 }
 
 // FUNÇÃO DE OBTER LIVRO POR ID
@@ -175,21 +181,83 @@ function exibirLivros(listaLivros) {
             } else if (btnAcaoLivro.textContent === "Devolver") {
                 devolverLivro(Number(btnAcaoLivro.dataset.id));
             }
-            exibirLivros(listaAtual);
+
+            verificaFiltrosDePesquisa();
         });
     });
 }
 
+// FUNÇÃO QUE BUSCA LIVROS POR DISPONIBILIDADE, POR TEXTO E CATEGORIA
+function buscarLivrosDisponibilidadeTextoCategoria(disponibilidade) {
+    const listarLivrosTexto = buscarLivros(txtBusca.value);
+
+    let lista = [];
+
+    listarLivrosTexto.forEach(livro => {
+        if (livro.disponivel === disponibilidade && livro.categoria === selectCategoria.value) {
+            lista.push(livro);
+        }
+    });
+
+    return lista;
+}
+
+// FUNÇÃO QUE BUSCA LIVROS POR DISPONIBILIDADE E CATEGORIA
+function buscarLivrosDisponibilidadeCategoria(disponibilidade) {
+    const listaLivrosCategoria = buscarLivrosPorCategoria(selectCategoria.value);
+
+    const lista = [];
+
+    listaLivrosCategoria.forEach(livro => {
+        if (livro.disponivel === disponibilidade) {
+            lista.push(livro)
+        }
+    });
+
+    return lista;
+}
+
+// FUNÇÃO QUE BUSCA LIVROS DISPONÍVEIS E POR TEXTO
+function buscarLivrosDisponibilidadeTexto(disponibilidade) {
+    const livrosTexto = buscarLivros(txtBusca.value)
+
+    const lista = [];
+
+    livrosTexto.forEach(livro => {
+        if (livro.disponivel === disponibilidade) {
+            lista.push(livro);
+        }
+    });
+
+    return lista;
+}
+
 // FUNÇÃO QUE VERIFICA FILTROS DE PESQUISA
 function verificaFiltrosDePesquisa() {
-    if (selectCategoria.value === "" && txtBusca.value.trim() === "") {
+    if (selectCategoria.value === "" && txtBusca.value.trim() === "" && selectDisponibilidade.value === "") {
         listaAtual = livros;
-    } else if (selectCategoria.value === "" && txtBusca.value.trim() !== "") {
+    } else if (selectCategoria.value === "" && txtBusca.value.trim() !== "" && selectDisponibilidade.value === "") {
         listaAtual = buscarLivros(txtBusca.value);
-    } else if (selectCategoria.value !== "" && txtBusca.value.trim() === "") {
+    } else if (selectCategoria.value !== "" && txtBusca.value.trim() === "" && selectDisponibilidade.value === "") {
         listaAtual = buscarLivrosPorCategoria(selectCategoria.value);
-    } else if (selectCategoria.value !== "" && txtBusca.value.trim() !== "") {
+    } else if (selectCategoria.value !== "" && txtBusca.value.trim() !== "" && selectDisponibilidade.value === "") {
         listaAtual = buscarLivrosTextoCategoria(txtBusca.value, selectCategoria.value);
+    } else if (selectDisponibilidade.value === "true" && selectCategoria.value === "" && txtBusca.value.trim() === "") {
+        listaAtual = buscarLivrosDisponiveis();
+    } else if (selectDisponibilidade.value === "false" && selectCategoria.value === "" && txtBusca.value.trim() === "") {
+        listaAtual = buscarLivrosEmprestados();
+    } else if (selectDisponibilidade.value === "true" && selectCategoria.value !== "" && txtBusca.value.trim() === "") {
+        listaAtual = buscarLivrosDisponibilidadeCategoria(true);
+    } else if (selectDisponibilidade.value === "false" && selectCategoria.value !== "" && txtBusca.value.trim() === "") {
+        listaAtual = buscarLivrosDisponibilidadeCategoria(false);
+    } else if (selectDisponibilidade.value === "true" && selectCategoria.value === "" && txtBusca.value.trim() !== "") {
+        listaAtual = buscarLivrosDisponibilidadeTexto(true);
+    } else if (selectDisponibilidade.value === "false" && selectCategoria.value === "" && txtBusca.value.trim() !== "") {
+        listaAtual = buscarLivrosDisponibilidadeTexto(false);
+    } else if (selectDisponibilidade.value === "true" && selectCategoria.value !== "" && txtBusca.value.trim() !== "") {
+        listaAtual = buscarLivrosDisponibilidadeTextoCategoria(true);
+    } else if (selectDisponibilidade.value === "false" && selectCategoria.value !== "" && txtBusca.value.trim() !== "") {
+        listaAtual = buscarLivrosDisponibilidadeTextoCategoria(false);
     }
 
     exibirLivros(listaAtual);
@@ -208,6 +276,7 @@ const txtBusca = document.querySelector("#txtBusca");
 const selectCategoria = document.querySelector("#selectCategoria");
 let listaAtual = livros;
 const btnLimparFiltros = document.querySelector("#btnLimparFiltros");
+const selectDisponibilidade = document.querySelector("#selectDisponibilidade");
 
 exibirLivros(livros);
 
@@ -222,5 +291,10 @@ selectCategoria.addEventListener("change", () => {
 btnLimparFiltros.addEventListener("click", () => {
     txtBusca.value = "";
     selectCategoria.value = "";
+    selectDisponibilidade.value = "";
+    verificaFiltrosDePesquisa();
+});
+
+selectDisponibilidade.addEventListener("change", () => {
     verificaFiltrosDePesquisa();
 });
