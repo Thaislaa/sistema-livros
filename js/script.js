@@ -308,10 +308,37 @@ selectDisponibilidade.addEventListener("change", () => {
 form.addEventListener("submit", (event) => {
     event.preventDefault();
 
-    const tituloLivro = titulo.value;
-    const autorLivro = autor.value;
+    const tituloLivro = titulo.value.trim();
+    const autorLivro = autor.value.trim();
     const categoriaLivro = categoria.value;
     const imagemLivro = imagem.value;
+
+    if (tituloLivro.length < 3) {
+        alert("O título deve ter pelo menos 3 caracteres.");
+        return;
+    }
+
+    const livroEncontrado = livros.some(
+        livro => livro.titulo.toLowerCase() === tituloLivro.toLowerCase()
+    );
+
+    if (livroEncontrado) {
+        alert("Não é possível adicionar esse livro. Ele já existe.");
+        return;
+    }
+
+    if (autorLivro.length < 3) {
+        alert("O campo nome do autor deve ter pelo menos 3 caracteres.");
+        return;
+    }
+
+    const numeros = "0123456789";
+    for (const letra of autorLivro) {
+        if (numeros.includes(letra)) {
+            alert("Nome do autor não pode ter números.");
+            return;
+        }
+    }
 
     const novoLivro = {
         id: livros.length + 1,
