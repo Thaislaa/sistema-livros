@@ -1,20 +1,29 @@
 import { livros } from "./dados.js";
 
+const livrosSalvos = localStorage.getItem("livros");
+let livrosAtuais;
+
+if (livrosSalvos) {
+    livrosAtuais = JSON.parse(livrosSalvos);
+} else {
+    livrosAtuais = livros;
+}
+
 // FUNÇÃO DE LISTAR LIVROS DISPONÍVEIS
 function buscarLivrosDisponiveis() {
-    const livrosDisponiveis = livros.filter(livro => livro.disponivel);
+    const livrosDisponiveis = livrosAtuais.filter(livro => livro.disponivel);
     return livrosDisponiveis;
 }
 
 // FUNÇÃO DE LISTAR LIVROS EMPRESTADOS
 function buscarLivrosEmprestados() {
-    const livrosEmprestados = livros.filter(livro => livro.disponivel === false);
+    const livrosEmprestados = livrosAtuais.filter(livro => livro.disponivel === false);
     return livrosEmprestados;
 }
 
 // FUNÇÃO DE OBTER LIVRO POR ID
 function obterLivroPorId(id) {
-    const livro = livros.find(livro => livro.id === id);
+    const livro = livrosAtuais.find(livro => livro.id === id);
 
     return livro;
 }
@@ -39,42 +48,42 @@ function emprestarLivro(id) {
     const livroDisponivel = obterLivroDisponivelPorId(id);
 
     if (livroDisponivel) {
-        const posicaoLivro = livros.findIndex(livro => livro.id === id);
-        livros[posicaoLivro].disponivel = false;
+        const posicaoLivro = livrosAtuais.findIndex(livro => livro.id === id);
+        livrosAtuais[posicaoLivro].disponivel = false;
     }
 }
 
 // FUNÇÃO DE DEVOLVER LIVRO
 function devolverLivro(id) {
-    const posicaoLivro = livros.findIndex(livro => livro.id === id);
+    const posicaoLivro = livrosAtuais.findIndex(livro => livro.id === id);
 
     if (posicaoLivro === -1) {
         return false;
     }
 
-    if (livros[posicaoLivro].disponivel === true) {
+    if (livrosAtuais[posicaoLivro].disponivel === true) {
         return false;
     }
 
-    livros[posicaoLivro].disponivel = true;
+    livrosAtuais[posicaoLivro].disponivel = true;
 }
 
 // FUNÇÃO DE BUSCAR LIVROS POR TÍTULO
 function buscarLivrosPorTitulo(titulo) {
-    const livrosEncontrados = livros.filter(livro => livro.titulo.toLowerCase().includes(titulo.toLowerCase()));
+    const livrosEncontrados = livrosAtuais.filter(livro => livro.titulo.toLowerCase().includes(titulo.toLowerCase()));
     return livrosEncontrados;
 }
 
 // FUNÇÃO DE BUSCAR LIVROS POR AUTOR
 function buscarLivrosPorAutor(autor) {
-    const livrosEncontrados = livros.filter(livro => livro.autor.toLowerCase().includes(autor.toLowerCase()));
+    const livrosEncontrados = livrosAtuais.filter(livro => livro.autor.toLowerCase().includes(autor.toLowerCase()));
 
     return livrosEncontrados;
 }
 
 // FUNÇÃO DE BUSCAR LIVROS POR CATEGORIAS
 function buscarLivrosPorCategoria(categoria) {
-    const livrosEncontrados = livros.filter(livro => livro.categoria.toLowerCase().includes(categoria.toLowerCase()));
+    const livrosEncontrados = livrosAtuais.filter(livro => livro.categoria.toLowerCase().includes(categoria.toLowerCase()));
 
     return livrosEncontrados;
 }
@@ -235,7 +244,7 @@ function buscarLivrosDisponibilidadeTexto(disponibilidade) {
 // FUNÇÃO QUE VERIFICA FILTROS DE PESQUISA
 function verificaFiltrosDePesquisa() {
     if (selectCategoria.value === "" && txtBusca.value.trim() === "" && selectDisponibilidade.value === "") {
-        listaAtual = livros;
+        listaAtual = livrosAtuais;
     } else if (selectCategoria.value === "" && txtBusca.value.trim() !== "" && selectDisponibilidade.value === "") {
         listaAtual = buscarLivros(txtBusca.value);
     } else if (selectCategoria.value !== "" && txtBusca.value.trim() === "" && selectDisponibilidade.value === "") {
@@ -274,7 +283,7 @@ const divLivros = document.querySelector(".livros");
 const divMensagemNaoEncontrado = document.querySelector(".div-mensagem-nao-encontrado");
 const txtBusca = document.querySelector("#txtBusca");
 const selectCategoria = document.querySelector("#selectCategoria");
-let listaAtual = livros;
+let listaAtual = livrosAtuais;
 const btnLimparFiltros = document.querySelector("#btnLimparFiltros");
 const selectDisponibilidade = document.querySelector("#selectDisponibilidade");
 
@@ -284,7 +293,7 @@ const autor = document.querySelector("#autor");
 const categoria = document.querySelector("#categoria");
 const imagem = document.querySelector("#urlImagem");
 
-exibirLivros(livros);
+exibirLivros(livrosAtuais);
 
 txtBusca.addEventListener("input", () => {
     verificaFiltrosDePesquisa();
@@ -318,7 +327,7 @@ form.addEventListener("submit", (event) => {
         return;
     }
 
-    const livroEncontrado = livros.some(
+    const livroEncontrado = livrosAtuais.some(
         livro => livro.titulo.toLowerCase() === tituloLivro.toLowerCase()
     );
 
@@ -341,7 +350,7 @@ form.addEventListener("submit", (event) => {
     }
 
     const novoLivro = {
-        id: livros.length + 1,
+        id: livrosAtuais.length + 1,
         titulo: tituloLivro,
         autor: autorLivro,
         categoria: categoriaLivro,
@@ -349,9 +358,10 @@ form.addEventListener("submit", (event) => {
         imagem: imagemLivro
     }
 
-    livros.push(novoLivro);
+    livrosAtuais.push(novoLivro);
+    localStorage.setItem("livros", JSON.stringify(livrosAtuais));
 
-    exibirLivros(livros);
+    exibirLivros(livrosAtuais);
 
     form.reset();
 });
