@@ -7,6 +7,7 @@ if (livrosSalvos) {
     livrosAtuais = JSON.parse(livrosSalvos);
 } else {
     livrosAtuais = livros;
+    localStorage.setItem("livros", JSON.stringify(livrosAtuais));
 }
 
 // FUNÇÃO DE LISTAR LIVROS DISPONÍVEIS
@@ -353,8 +354,12 @@ form.addEventListener("submit", (event) => {
         }
     }
 
+    const idsLivros = livrosAtuais.map(livro => livro.id);
+    const maiorId = idsLivros.length > 0 ? Math.max(...idsLivros) : 0;
+    const proximoId = maiorId + 1;
+
     const novoLivro = {
-        id: livrosAtuais.length + 1,
+        id: proximoId,
         titulo: tituloLivro,
         autor: autorLivro,
         categoria: categoriaLivro,
