@@ -50,6 +50,8 @@ function emprestarLivro(id) {
     if (livroDisponivel) {
         const posicaoLivro = livrosAtuais.findIndex(livro => livro.id === id);
         livrosAtuais[posicaoLivro].disponivel = false;
+
+        localStorage.setItem("livros", JSON.stringify(livrosAtuais));
     }
 }
 
@@ -66,6 +68,8 @@ function devolverLivro(id) {
     }
 
     livrosAtuais[posicaoLivro].disponivel = true;
+
+    localStorage.setItem("livros", JSON.stringify(livrosAtuais));
 }
 
 // FUNÇÃO DE BUSCAR LIVROS POR TÍTULO
