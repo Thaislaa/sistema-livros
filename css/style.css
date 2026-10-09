@@ -92,6 +92,7 @@ header {
     border-radius: 10px;
     margin-bottom: 30px;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+    position: relative;
 }
 
 .card>img {
@@ -165,6 +166,11 @@ header {
 
 .btn-emprestar {
     position: absolute;
+}
+
+.btn-remover {
+    position: absolute;
+    right: 20px;
 }
 
 @media (min-width: 980px) and (max-width: 1300px) {

@@ -73,6 +73,22 @@ function devolverLivro(id) {
     localStorage.setItem("livros", JSON.stringify(livrosAtuais));
 }
 
+// FUNÇÃO DE REMOVER LIVRO
+function removerLivro(id) {
+    const livroEncontrado = obterLivroPorId(id);
+
+    if (!livroEncontrado) {
+        return;
+    }
+
+    if (livroEncontrado.disponivel) {
+        const indexLivro = livrosAtuais.findIndex(livro => livro === livroEncontrado);
+        livrosAtuais.splice(indexLivro, 1);
+
+        localStorage.setItem("livros", JSON.stringify(livrosAtuais));
+    }
+}
+
 // FUNÇÃO DE BUSCAR LIVROS POR TÍTULO
 function buscarLivrosPorTitulo(titulo) {
     const livrosEncontrados = livrosAtuais.filter(livro => livro.titulo.toLowerCase().includes(titulo.toLowerCase()));
@@ -170,7 +186,16 @@ function exibirLivros(listaLivros) {
         btnAcaoLivro.dataset.id = livro.id;
         btnAcaoLivro.classList.add("btn-emprestar");
 
+        const btnRemoverLivro = document.createElement("button");
+        btnRemoverLivro.textContent = "Remover";
+        btnRemoverLivro.dataset.id = livro.id;
+        btnRemoverLivro.classList.add("btn-remover");
+
         divLivro.appendChild(btnAcaoLivro);
+
+        if (livro.disponivel) {
+            divLivro.appendChild(btnRemoverLivro);
+        }
 
         divLivro.appendChild(imagem);
         divLivro.appendChild(titulo);
@@ -197,6 +222,16 @@ function exibirLivros(listaLivros) {
             }
 
             verificaFiltrosDePesquisa();
+        });
+
+        btnRemoverLivro.addEventListener("click", () => {
+            const confirmacao = confirm("Tem certeza que deseja remover esse livro?");
+
+            if (confirmacao) {
+                removerLivro(livro.id);
+
+                verificaFiltrosDePesquisa();
+            }
         });
     });
 }
