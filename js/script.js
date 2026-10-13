@@ -428,7 +428,7 @@ form.addEventListener("submit", (event) => {
 
         localStorage.setItem("livros", JSON.stringify(livrosAtuais));
 
-        exibirLivros(livrosAtuais);
+        verificaFiltrosDePesquisa();
         form.reset();
         idLivroEmEdicao = null;
         document.querySelector(".title-cadastro").textContent = "Cadastrar livro";
