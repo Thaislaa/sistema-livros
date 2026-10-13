@@ -173,6 +173,11 @@ header {
     right: 20px;
 }
 
+.btn-editar {
+    position: absolute;
+    left: 105px;
+}
+
 @media (min-width: 980px) and (max-width: 1300px) {
     .card>h2 {
         font-size: 1.2em;

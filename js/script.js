@@ -191,11 +191,18 @@ function exibirLivros(listaLivros) {
         btnRemoverLivro.dataset.id = livro.id;
         btnRemoverLivro.classList.add("btn-remover");
 
+        const btnEditarLivro = document.createElement("button");
+        btnEditarLivro.textContent = "Editar";
+        btnEditarLivro.dataset.id = livro.id;
+        btnEditarLivro.classList.add("btn-editar");
+
         divLivro.appendChild(btnAcaoLivro);
 
         if (livro.disponivel) {
             divLivro.appendChild(btnRemoverLivro);
         }
+
+        divLivro.appendChild(btnEditarLivro);
 
         divLivro.appendChild(imagem);
         divLivro.appendChild(titulo);
@@ -233,6 +240,25 @@ function exibirLivros(listaLivros) {
                 verificaFiltrosDePesquisa();
             }
         });
+
+        btnEditarLivro.addEventListener("click", () => {
+            idLivroEmEdicao = livro.id;
+
+            const titleCadastro = document.querySelector(".title-cadastro");
+            titleCadastro.textContent = "Editar livro";
+
+            const titulo = document.querySelector("#titulo");
+            titulo.value = livro.titulo;
+
+            const autor = document.querySelector("#autor");
+            autor.value = livro.autor;
+
+            const categoria = document.querySelector("#categoria");
+            categoria.value = livro.categoria;
+
+            const urlImagem = document.querySelector("#urlImagem");
+            urlImagem.value = livro.imagem;
+        })
     });
 }
 
@@ -332,6 +358,8 @@ const titulo = document.querySelector("#titulo");
 const autor = document.querySelector("#autor");
 const categoria = document.querySelector("#categoria");
 const imagem = document.querySelector("#urlImagem");
+const formulario = document.querySelector(".formulario");
+let idLivroEmEdicao = null;
 
 exibirLivros(livrosAtuais);
 
@@ -368,7 +396,8 @@ form.addEventListener("submit", (event) => {
     }
 
     const livroEncontrado = livrosAtuais.some(
-        livro => livro.titulo.toLowerCase() === tituloLivro.toLowerCase()
+        livro => livro.id !== idLivroEmEdicao &&
+            livro.titulo.toLowerCase() === tituloLivro.toLowerCase()
     );
 
     if (livroEncontrado) {
@@ -387,6 +416,23 @@ form.addEventListener("submit", (event) => {
             alert("Nome do autor não pode ter números.");
             return;
         }
+    }
+
+    if (idLivroEmEdicao !== null) {
+        const livroEncontrado = obterLivroPorId(idLivroEmEdicao);
+
+        livroEncontrado.titulo = tituloLivro;
+        livroEncontrado.autor = autorLivro;
+        livroEncontrado.categoria = categoriaLivro;
+        livroEncontrado.imagem = imagemLivro;
+
+        localStorage.setItem("livros", JSON.stringify(livrosAtuais));
+
+        exibirLivros(livrosAtuais);
+        form.reset();
+        idLivroEmEdicao = null;
+        document.querySelector(".title-cadastro").textContent = "Cadastrar livro";
+        return;
     }
 
     const idsLivros = livrosAtuais.map(livro => livro.id);
