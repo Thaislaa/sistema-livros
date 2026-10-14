@@ -270,30 +270,26 @@ function exibirLivros(listaLivros) {
 
 // FUNÇÃO QUE VERIFICA FILTROS DE PESQUISA
 function verificaFiltrosDePesquisa() {
-    if (selectCategoria.value === "" && txtBusca.value.trim() === "" && selectDisponibilidade.value === "") {
-        listaAtual = livrosAtuais;
-    } else if (selectCategoria.value === "" && txtBusca.value.trim() !== "" && selectDisponibilidade.value === "") {
-        listaAtual = buscarLivros(txtBusca.value);
-    } else if (selectCategoria.value !== "" && txtBusca.value.trim() === "" && selectDisponibilidade.value === "") {
-        listaAtual = buscarLivrosPorCategoria(selectCategoria.value);
-    } else if (selectCategoria.value !== "" && txtBusca.value.trim() !== "" && selectDisponibilidade.value === "") {
-        listaAtual = buscarLivrosTextoCategoria(txtBusca.value, selectCategoria.value);
-    } else if (selectDisponibilidade.value === "true" && selectCategoria.value === "" && txtBusca.value.trim() === "") {
-        listaAtual = buscarLivrosDisponiveis();
-    } else if (selectDisponibilidade.value === "false" && selectCategoria.value === "" && txtBusca.value.trim() === "") {
-        listaAtual = buscarLivrosEmprestados();
-    } else if (selectDisponibilidade.value === "true" && selectCategoria.value !== "" && txtBusca.value.trim() === "") {
-        listaAtual = buscarLivrosDisponibilidadeCategoria(true);
-    } else if (selectDisponibilidade.value === "false" && selectCategoria.value !== "" && txtBusca.value.trim() === "") {
-        listaAtual = buscarLivrosDisponibilidadeCategoria(false);
-    } else if (selectDisponibilidade.value === "true" && selectCategoria.value === "" && txtBusca.value.trim() !== "") {
-        listaAtual = buscarLivrosDisponibilidadeTexto(true);
-    } else if (selectDisponibilidade.value === "false" && selectCategoria.value === "" && txtBusca.value.trim() !== "") {
-        listaAtual = buscarLivrosDisponibilidadeTexto(false);
-    } else if (selectDisponibilidade.value === "true" && selectCategoria.value !== "" && txtBusca.value.trim() !== "") {
-        listaAtual = buscarLivrosDisponibilidadeTextoCategoria(true);
-    } else if (selectDisponibilidade.value === "false" && selectCategoria.value !== "" && txtBusca.value.trim() !== "") {
-        listaAtual = buscarLivrosDisponibilidadeTextoCategoria(false);
+    const categoria = selectCategoria.value;
+    const texto = txtBusca.value.trim();
+    const disponibilidade = selectDisponibilidade.value;
+
+    listaAtual = livrosAtuais;
+
+    if (texto !== "") {
+        listaAtual = buscarLivros(texto);
+    }
+
+    if (categoria !== "") {
+        listaAtual = listaAtual.filter(livro =>
+            livro.categoria === categoria
+        );
+    }
+
+    if (disponibilidade !== "") {
+        listaAtual = listaAtual.filter(livro =>
+            livro.disponivel === (disponibilidade === "true")
+        );
     }
 
     exibirLivros(listaAtual);
