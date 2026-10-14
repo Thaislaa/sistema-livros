@@ -12,21 +12,17 @@ if (livrosSalvos) {
 
 // FUNÇÃO DE LISTAR LIVROS DISPONÍVEIS
 function buscarLivrosDisponiveis() {
-    const livrosDisponiveis = livrosAtuais.filter(livro => livro.disponivel);
-    return livrosDisponiveis;
+    return livrosAtuais.filter(livro => livro.disponivel);
 }
 
 // FUNÇÃO DE LISTAR LIVROS EMPRESTADOS
 function buscarLivrosEmprestados() {
-    const livrosEmprestados = livrosAtuais.filter(livro => livro.disponivel === false);
-    return livrosEmprestados;
+    return livrosAtuais.filter(livro => livro.disponivel === false);
 }
 
 // FUNÇÃO DE OBTER LIVRO POR ID
 function obterLivroPorId(id) {
-    const livro = livrosAtuais.find(livro => livro.id === id);
-
-    return livro;
+    return livrosAtuais.find(livro => livro.id === id);
 }
 
 // FUNÇÃO DE OBTER LIVRO DISPONÍVEL POR ID
@@ -37,11 +33,11 @@ function obterLivroDisponivelPorId(id) {
         return false;
     }
 
-    if (livro.disponivel === true) {
+    if (livro.disponivel) {
         return livro;
-    } else if (livro.disponivel === false) {
-        return false;
     }
+
+    return false;
 }
 
 // FUNÇÃO DE EMPRESTAR LIVRO
@@ -49,8 +45,7 @@ function emprestarLivro(id) {
     const livroDisponivel = obterLivroDisponivelPorId(id);
 
     if (livroDisponivel) {
-        const posicaoLivro = livrosAtuais.findIndex(livro => livro.id === id);
-        livrosAtuais[posicaoLivro].disponivel = false;
+        livroDisponivel.disponivel = false;
 
         localStorage.setItem("livros", JSON.stringify(livrosAtuais));
     }
@@ -58,17 +53,17 @@ function emprestarLivro(id) {
 
 // FUNÇÃO DE DEVOLVER LIVRO
 function devolverLivro(id) {
-    const posicaoLivro = livrosAtuais.findIndex(livro => livro.id === id);
+    const livro = obterLivroPorId(id);
 
-    if (posicaoLivro === -1) {
+    if (!livro) {
         return false;
     }
 
-    if (livrosAtuais[posicaoLivro].disponivel === true) {
+    if (livro.disponivel) {
         return false;
     }
 
-    livrosAtuais[posicaoLivro].disponivel = true;
+    livro.disponivel = true;
 
     localStorage.setItem("livros", JSON.stringify(livrosAtuais));
 }
@@ -82,7 +77,7 @@ function removerLivro(id) {
     }
 
     if (livroEncontrado.disponivel) {
-        const indexLivro = livrosAtuais.findIndex(livro => livro === livroEncontrado);
+        const indexLivro = livrosAtuais.findIndex(livro => livro.id === id);
         livrosAtuais.splice(indexLivro, 1);
 
         localStorage.setItem("livros", JSON.stringify(livrosAtuais));
@@ -91,22 +86,17 @@ function removerLivro(id) {
 
 // FUNÇÃO DE BUSCAR LIVROS POR TÍTULO
 function buscarLivrosPorTitulo(titulo) {
-    const livrosEncontrados = livrosAtuais.filter(livro => livro.titulo.toLowerCase().includes(titulo.toLowerCase()));
-    return livrosEncontrados;
+    return livrosAtuais.filter(livro => livro.titulo.toLowerCase().includes(titulo.toLowerCase()));
 }
 
 // FUNÇÃO DE BUSCAR LIVROS POR AUTOR
 function buscarLivrosPorAutor(autor) {
-    const livrosEncontrados = livrosAtuais.filter(livro => livro.autor.toLowerCase().includes(autor.toLowerCase()));
-
-    return livrosEncontrados;
+    return livrosAtuais.filter(livro => livro.autor.toLowerCase().includes(autor.toLowerCase()));
 }
 
 // FUNÇÃO DE BUSCAR LIVROS POR CATEGORIAS
 function buscarLivrosPorCategoria(categoria) {
-    const livrosEncontrados = livrosAtuais.filter(livro => livro.categoria.toLowerCase().includes(categoria.toLowerCase()));
-
-    return livrosEncontrados;
+    return livrosAtuais.filter(livro => livro.categoria.toLowerCase().includes(categoria.toLowerCase()));
 }
 
 // FUNÇÃO DE BUSCAR LIVROS POR AUTOR OU TÍTULO
@@ -127,15 +117,31 @@ function buscarLivros(texto) {
 function buscarLivrosTextoCategoria(texto, categoria) {
     const listaLivros = buscarLivros(texto);
 
-    const listaLivrosFiltrados = [];
+    return listaLivros.filter(livro => livro.categoria === categoria);
+}
 
-    listaLivros.forEach(livro => {
-        if (livro.categoria === categoria) {
-            listaLivrosFiltrados.push(livro);
-        }
-    });
+// FUNÇÃO QUE BUSCA LIVROS POR DISPONIBILIDADE, POR TEXTO E CATEGORIA
+function buscarLivrosDisponibilidadeTextoCategoria(disponibilidade) {
+    const listarLivrosTexto = buscarLivros(txtBusca.value);
 
-    return listaLivrosFiltrados;
+    return listarLivrosTexto.filter(livro =>
+        livro.disponivel === disponibilidade &&
+        livro.categoria === selectCategoria.value
+    );
+}
+
+// FUNÇÃO QUE BUSCA LIVROS POR DISPONIBILIDADE E CATEGORIA
+function buscarLivrosDisponibilidadeCategoria(disponibilidade) {
+    const listaLivrosCategoria = buscarLivrosPorCategoria(selectCategoria.value);
+
+    return listaLivrosCategoria.filter(livro => livro.disponivel === disponibilidade);
+}
+
+// FUNÇÃO QUE BUSCA LIVROS DISPONÍVEIS E POR TEXTO
+function buscarLivrosDisponibilidadeTexto(disponibilidade) {
+    const livrosTexto = buscarLivros(txtBusca.value);
+
+    return livrosTexto.filter(livro => livro.disponivel === disponibilidade);
 }
 
 // FUNÇÃO QUE MOSTRA A LISTA DE LIVROS NA PÁGINA
@@ -167,7 +173,7 @@ function exibirLivros(listaLivros) {
         divDisponibilidade.className = "div-disponibilidade"
 
         const disponivel = document.createElement("p");
-        if (livro.disponivel === true) {
+        if (livro.disponivel) {
             disponivel.innerHTML = "<span class='bolinha'>&bull;</span> Disponível";
             disponivel.className = "p-disponivel";
         } else {
@@ -222,10 +228,10 @@ function exibirLivros(listaLivros) {
         divLivros.appendChild(divLivro);
 
         btnAcaoLivro.addEventListener("click", () => {
-            if (btnAcaoLivro.textContent === "Emprestar") {
-                emprestarLivro(Number(btnAcaoLivro.dataset.id));
-            } else if (btnAcaoLivro.textContent === "Devolver") {
-                devolverLivro(Number(btnAcaoLivro.dataset.id));
+            if (livro.disponivel) {
+                emprestarLivro(livro.id);
+            } else {
+                devolverLivro(livro.id);
             }
 
             verificaFiltrosDePesquisa();
@@ -260,51 +266,6 @@ function exibirLivros(listaLivros) {
             urlImagem.value = livro.imagem;
         })
     });
-}
-
-// FUNÇÃO QUE BUSCA LIVROS POR DISPONIBILIDADE, POR TEXTO E CATEGORIA
-function buscarLivrosDisponibilidadeTextoCategoria(disponibilidade) {
-    const listarLivrosTexto = buscarLivros(txtBusca.value);
-
-    let lista = [];
-
-    listarLivrosTexto.forEach(livro => {
-        if (livro.disponivel === disponibilidade && livro.categoria === selectCategoria.value) {
-            lista.push(livro);
-        }
-    });
-
-    return lista;
-}
-
-// FUNÇÃO QUE BUSCA LIVROS POR DISPONIBILIDADE E CATEGORIA
-function buscarLivrosDisponibilidadeCategoria(disponibilidade) {
-    const listaLivrosCategoria = buscarLivrosPorCategoria(selectCategoria.value);
-
-    const lista = [];
-
-    listaLivrosCategoria.forEach(livro => {
-        if (livro.disponivel === disponibilidade) {
-            lista.push(livro)
-        }
-    });
-
-    return lista;
-}
-
-// FUNÇÃO QUE BUSCA LIVROS DISPONÍVEIS E POR TEXTO
-function buscarLivrosDisponibilidadeTexto(disponibilidade) {
-    const livrosTexto = buscarLivros(txtBusca.value)
-
-    const lista = [];
-
-    livrosTexto.forEach(livro => {
-        if (livro.disponivel === disponibilidade) {
-            lista.push(livro);
-        }
-    });
-
-    return lista;
 }
 
 // FUNÇÃO QUE VERIFICA FILTROS DE PESQUISA
