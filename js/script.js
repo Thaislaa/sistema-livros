@@ -1,14 +1,11 @@
-import { livros } from "./dados.js";
-
-const livrosSalvos = localStorage.getItem("livros");
-let livrosAtuais;
-
-if (livrosSalvos) {
-    livrosAtuais = JSON.parse(livrosSalvos);
-} else {
-    livrosAtuais = livros;
-    localStorage.setItem("livros", JSON.stringify(livrosAtuais));
-}
+import {
+    livrosAtuais,
+    obterLivroPorId,
+    emprestarLivro,
+    devolverLivro,
+    removerLivro,
+    salvarLivros
+} from "./livros.js";
 
 // FUNÇÃO DE LISTAR LIVROS DISPONÍVEIS
 function buscarLivrosDisponiveis() {
@@ -18,70 +15,6 @@ function buscarLivrosDisponiveis() {
 // FUNÇÃO DE LISTAR LIVROS EMPRESTADOS
 function buscarLivrosEmprestados() {
     return livrosAtuais.filter(livro => livro.disponivel === false);
-}
-
-// FUNÇÃO DE OBTER LIVRO POR ID
-function obterLivroPorId(id) {
-    return livrosAtuais.find(livro => livro.id === id);
-}
-
-// FUNÇÃO DE OBTER LIVRO DISPONÍVEL POR ID
-function obterLivroDisponivelPorId(id) {
-    const livro = obterLivroPorId(id);
-
-    if (!livro) {
-        return false;
-    }
-
-    if (livro.disponivel) {
-        return livro;
-    }
-
-    return false;
-}
-
-// FUNÇÃO DE EMPRESTAR LIVRO
-function emprestarLivro(id) {
-    const livroDisponivel = obterLivroDisponivelPorId(id);
-
-    if (livroDisponivel) {
-        livroDisponivel.disponivel = false;
-
-        localStorage.setItem("livros", JSON.stringify(livrosAtuais));
-    }
-}
-
-// FUNÇÃO DE DEVOLVER LIVRO
-function devolverLivro(id) {
-    const livro = obterLivroPorId(id);
-
-    if (!livro) {
-        return false;
-    }
-
-    if (livro.disponivel) {
-        return false;
-    }
-
-    livro.disponivel = true;
-
-    localStorage.setItem("livros", JSON.stringify(livrosAtuais));
-}
-
-// FUNÇÃO DE REMOVER LIVRO
-function removerLivro(id) {
-    const livroEncontrado = obterLivroPorId(id);
-
-    if (!livroEncontrado) {
-        return;
-    }
-
-    if (livroEncontrado.disponivel) {
-        const indexLivro = livrosAtuais.findIndex(livro => livro.id === id);
-        livrosAtuais.splice(indexLivro, 1);
-
-        localStorage.setItem("livros", JSON.stringify(livrosAtuais));
-    }
 }
 
 // FUNÇÃO DE BUSCAR LIVROS POR TÍTULO
@@ -383,7 +316,7 @@ form.addEventListener("submit", (event) => {
         livroEncontrado.categoria = categoriaLivro;
         livroEncontrado.imagem = imagemLivro;
 
-        localStorage.setItem("livros", JSON.stringify(livrosAtuais));
+        salvarLivros();
 
         verificaFiltrosDePesquisa();
         form.reset();
@@ -406,7 +339,7 @@ form.addEventListener("submit", (event) => {
     }
 
     livrosAtuais.push(novoLivro);
-    localStorage.setItem("livros", JSON.stringify(livrosAtuais));
+    salvarLivros();
 
     exibirLivros(livrosAtuais);
 
