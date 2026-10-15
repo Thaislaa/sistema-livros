@@ -7,75 +7,7 @@ import {
     salvarLivros
 } from "./livros.js";
 
-// FUNÇÃO DE LISTAR LIVROS DISPONÍVEIS
-function buscarLivrosDisponiveis() {
-    return livrosAtuais.filter(livro => livro.disponivel);
-}
-
-// FUNÇÃO DE LISTAR LIVROS EMPRESTADOS
-function buscarLivrosEmprestados() {
-    return livrosAtuais.filter(livro => livro.disponivel === false);
-}
-
-// FUNÇÃO DE BUSCAR LIVROS POR TÍTULO
-function buscarLivrosPorTitulo(titulo) {
-    return livrosAtuais.filter(livro => livro.titulo.toLowerCase().includes(titulo.toLowerCase()));
-}
-
-// FUNÇÃO DE BUSCAR LIVROS POR AUTOR
-function buscarLivrosPorAutor(autor) {
-    return livrosAtuais.filter(livro => livro.autor.toLowerCase().includes(autor.toLowerCase()));
-}
-
-// FUNÇÃO DE BUSCAR LIVROS POR CATEGORIAS
-function buscarLivrosPorCategoria(categoria) {
-    return livrosAtuais.filter(livro => livro.categoria.toLowerCase().includes(categoria.toLowerCase()));
-}
-
-// FUNÇÃO DE BUSCAR LIVROS POR AUTOR OU TÍTULO
-function buscarLivros(texto) {
-    const listaLivrosTitulo = buscarLivrosPorTitulo(texto);
-    const listaLivrosAutor = buscarLivrosPorAutor(texto);
-
-    const listaLivros = [...listaLivrosTitulo, ...listaLivrosAutor];
-
-    const listaLivrosSemDuplicados = listaLivros.filter((livro, index) => {
-        return listaLivros.findIndex(livroEncontrado => livroEncontrado.id === livro.id) === index;
-    });
-
-    return listaLivrosSemDuplicados;
-}
-
-// FUNÇÃO QUE BUSCA POR TEXTO (TÍTULO E AUTOR) E CATEGORIA 
-function buscarLivrosTextoCategoria(texto, categoria) {
-    const listaLivros = buscarLivros(texto);
-
-    return listaLivros.filter(livro => livro.categoria === categoria);
-}
-
-// FUNÇÃO QUE BUSCA LIVROS POR DISPONIBILIDADE, POR TEXTO E CATEGORIA
-function buscarLivrosDisponibilidadeTextoCategoria(disponibilidade) {
-    const listarLivrosTexto = buscarLivros(txtBusca.value);
-
-    return listarLivrosTexto.filter(livro =>
-        livro.disponivel === disponibilidade &&
-        livro.categoria === selectCategoria.value
-    );
-}
-
-// FUNÇÃO QUE BUSCA LIVROS POR DISPONIBILIDADE E CATEGORIA
-function buscarLivrosDisponibilidadeCategoria(disponibilidade) {
-    const listaLivrosCategoria = buscarLivrosPorCategoria(selectCategoria.value);
-
-    return listaLivrosCategoria.filter(livro => livro.disponivel === disponibilidade);
-}
-
-// FUNÇÃO QUE BUSCA LIVROS DISPONÍVEIS E POR TEXTO
-function buscarLivrosDisponibilidadeTexto(disponibilidade) {
-    const livrosTexto = buscarLivros(txtBusca.value);
-
-    return livrosTexto.filter(livro => livro.disponivel === disponibilidade);
-}
+import { buscarLivros } from "./filtros.js";
 
 // FUNÇÃO QUE MOSTRA A LISTA DE LIVROS NA PÁGINA
 function exibirLivros(listaLivros) {
