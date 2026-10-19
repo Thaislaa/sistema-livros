@@ -178,6 +178,27 @@ header {
     left: 105px;
 }
 
+.btn-add-Livro {
+    margin-bottom: 30px;
+    background-color: rgb(2, 97, 3);
+    border-radius: 50%;
+    width: 65px;
+    height: 65px;
+    border: 1px solid rgb(2, 97, 3);
+    cursor: pointer;
+}
+
+.btn-add-Livro>img {
+    width: 45px;
+}
+
+.div-btn-AddLivros {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
 @media (min-width: 980px) and (max-width: 1300px) {
     .card>h2 {
         font-size: 1.2em;

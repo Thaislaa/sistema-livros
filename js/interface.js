@@ -9,6 +9,8 @@ import {
 export function exibirLivros(listaLivros, elementos, atualizarLista, editarLivro) {
     const { divLivros, divMensagemNaoEncontrado } = elementos;
 
+    const tamanhoLista = listaLivros.length - 1;
+
     divLivros.innerHTML = "";
     divMensagemNaoEncontrado.innerHTML = "";
 
@@ -111,5 +113,26 @@ export function exibirLivros(listaLivros, elementos, atualizarLista, editarLivro
         btnEditarLivro.addEventListener("click", () => {
             editarLivro(livro);
         });
+
+        if (livro === listaLivros[tamanhoLista]) {
+            const btnAddLivro = document.createElement("button");
+            btnAddLivro.classList.add("btn-add-Livro");
+
+            const imgMais = document.createElement("img");
+            imgMais.src = "../img/icon-mais.png";
+
+            const divAdd = document.createElement("div");
+            divAdd.classList.add("div-btn-AddLivros");
+
+            const textoAdd = document.createElement("p");
+            textoAdd.textContent = "Adicionar novo livro";
+
+            btnAddLivro.appendChild(imgMais);
+
+            divAdd.appendChild(btnAddLivro);
+            divAdd.appendChild(textoAdd);
+
+            divLivros.appendChild(divAdd);
+        }
     });
 }
