@@ -117,6 +117,7 @@ export function exibirLivros(listaLivros, elementos, atualizarLista, editarLivro
         if (livro === listaLivros[tamanhoLista]) {
             const btnAddLivro = document.createElement("button");
             btnAddLivro.classList.add("btn-add-Livro");
+            btnAddLivro.id = "btnAbrirCadastro";
 
             const imgMais = document.createElement("img");
             imgMais.src = "../img/icon-mais.png";
@@ -133,6 +134,12 @@ export function exibirLivros(listaLivros, elementos, atualizarLista, editarLivro
             divAdd.appendChild(textoAdd);
 
             divLivros.appendChild(divAdd);
+
+            btnAddLivro.addEventListener("click", () => {
+                const modalCadastro = document.querySelector("#modalCadastro");
+                modalCadastro.style.display = "flex";
+                document.body.style.overflow = "hidden";
+            });
         }
     });
 }
