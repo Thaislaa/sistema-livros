@@ -23,6 +23,8 @@ const autor = document.querySelector("#autor");
 const categoria = document.querySelector("#categoria");
 const imagem = document.querySelector("#urlImagem");
 
+const btnFecharForm = document.querySelector("#btn-fechar-form");
+
 const elementosInterface = {
     divLivros,
     divMensagemNaoEncontrado
@@ -101,6 +103,12 @@ btnLimparFiltros.addEventListener("click", () => {
     selectDisponibilidade.value = "";
 
     verificaFiltrosDePesquisa();
+});
+
+btnFecharForm.addEventListener("click", () => {
+    const modalCadastro = document.querySelector("#modalCadastro");
+    modalCadastro.style.display = "none";
+    document.body.style.overflow = "";
 });
 
 // CADASTRAR E EDITAR LIVROS
