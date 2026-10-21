@@ -255,6 +255,25 @@ form>button {
     background-color: rgb(2, 97, 3);
     height: 30px;
     border-radius: 5px;
+    cursor: pointer;
+}
+
+.div-btn-fechar {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.div-btn-fechar>button {
+    border: none;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.div-btn-fechar img {
+    width: 20px;
 }
 
 @media (min-width: 980px) and (max-width: 1300px) {
