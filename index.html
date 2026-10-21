@@ -50,30 +50,40 @@
 
         <div class="livros"></div>
 
-        <div class="formulario" id="modalCadastro">
-            <h3 class="title-cadastro">Cadastro de Livros</h3>
-            <form action="" class="form-cadastro">
-                <label for="titulo">Título do livro</label>
-                <input type="text" id="titulo" name="titulo" required>
+        <div id="modalCadastro">
+            <div class="formulario">
+                <h3 class="title-cadastro">Cadastro de Livros</h3>
+                <form action="" class="form-cadastro">
+                    <div class="info-cadastro">
+                        <label for="titulo">Título do livro</label>
+                        <input type="text" id="titulo" name="titulo" required>
+                    </div>
 
-                <label for="autor">Autor do livro</label>
-                <input type="text" id="autor" name="autor" required>
+                    <div class="info-cadastro">
+                        <label for="autor">Autor do livro</label>
+                        <input type="text" id="autor" name="autor" required>
+                    </div>
 
-                <label for="categoria">Selecione uma categoria</label>
-                <select id="categoria" name="categoria" required>
-                    <option value="" disabled selected></option>
-                    <option value="Fantasia">Fantasia</option>
-                    <option value="Ficção">Ficção</option>
-                    <option value="Romance">Romance</option>
-                    <option value="Infantil">Infantil</option>
-                    <option value="Suspense">Suspense</option>
-                </select>
+                    <div class="info-cadastro">
+                        <label for="categoria">Selecione uma categoria</label>
+                        <select id="categoria" name="categoria" required>
+                            <option value="" disabled selected></option>
+                            <option value="Fantasia">Fantasia</option>
+                            <option value="Ficção">Ficção</option>
+                            <option value="Romance">Romance</option>
+                            <option value="Infantil">Infantil</option>
+                            <option value="Suspense">Suspense</option>
+                        </select>
+                    </div>
 
-                <label for="urlImagem">URL da imagem</label>
-                <input type="url" id="urlImagem" name="imagem" required>
+                    <div class="info-cadastro">
+                        <label for="urlImagem">URL da imagem</label>
+                        <input type="url" id="urlImagem" name="imagem" required>
+                    </div>
 
-                <button type="submit">Cadastrar Livro</button>
-            </form>
+                    <button type="submit">Cadastrar Livro</button>
+                </form>
+            </div>
         </div>
     </main>
     <script type="module" src="js/script.js"></script>

@@ -212,6 +212,51 @@ header {
     justify-content: center;
 }
 
+.formulario {
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    margin: 15px;
+    border-radius: 10px;
+    width: 450px;
+}
+
+.formulario>h3 {
+    margin-bottom: 20px;
+}
+
+.info-cadastro {
+    margin-bottom: 15px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.info-cadastro>label {
+    margin-bottom: 5px;
+}
+
+.info-cadastro>input,
+select {
+    height: 30px;
+    border-radius: 5px;
+    border: 1px solid #b5b5b5;
+}
+
+.info-cadastro>input {
+    padding-left: 5px;
+}
+
+form>button {
+    width: 100%;
+    border: 1px solid rgb(2, 97, 3);
+    color: #fff;
+    background-color: rgb(2, 97, 3);
+    height: 30px;
+    border-radius: 5px;
+}
+
 @media (min-width: 980px) and (max-width: 1300px) {
     .card>h2 {
         font-size: 1.2em;
