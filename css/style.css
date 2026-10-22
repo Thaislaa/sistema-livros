@@ -116,20 +116,6 @@ header {
     margin-bottom: 10px;
 }
 
-.div-categoria {
-    display: flex;
-    align-items: center;
-}
-
-.div-categoria>img {
-    width: 25px;
-    margin-right: 5px;
-}
-
-.div-categoria>p {
-    color: #434343;
-}
-
 .card>hr {
     margin: 15px 0;
     border: none;
@@ -164,18 +150,42 @@ header {
     margin-top: 20px;
 }
 
-.btn-emprestar {
-    position: absolute;
+.categoria-livro {
+    color: rgb(41, 55, 75);
+    padding: 2px 10px;
+    font-weight: 500;
+    font-size: 13px;
+    background-color: rgb(216, 226, 242);
+    border-radius: 8px;
 }
 
-.btn-remover {
+.div-categoria img {
+    width: 26px;
+    cursor: pointer;
+    text-align: right;
+}
+
+.div-categoria>button {
+    border: none;
+    margin: 0;
+    padding: 0;
+    width: 18px;
+    background-color: #fff;
+}
+
+.div-categoria {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.div-acoes {
+    background-color: red;
+    width: 100px;
+    height: 100px;
     position: absolute;
+    top: 55px;
     right: 20px;
-}
-
-.btn-editar {
-    position: absolute;
-    left: 105px;
 }
 
 .btn-add-Livro {

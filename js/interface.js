@@ -27,11 +27,15 @@ export function exibirLivros(listaLivros, elementos, atualizarLista, editarLivro
         const divCategoria = document.createElement("div");
         divCategoria.className = "div-categoria";
 
+        const btnMais = document.createElement("button");
+        btnMais.id = "btnTresPontos";
+
         const imgCategoria = document.createElement("img");
-        imgCategoria.src = "img/icon-livro.png";
+        imgCategoria.src = "img/tres-pontos.png";
 
         const categoria = document.createElement("p");
-        categoria.textContent = livro.categoria;
+        categoria.textContent = livro.categoria.toUpperCase();
+        categoria.classList.add("categoria-livro");
 
         const divDisponibilidade = document.createElement("div");
         divDisponibilidade.className = "div-disponibilidade";
@@ -57,30 +61,17 @@ export function exibirLivros(listaLivros, elementos, atualizarLista, editarLivro
         btnAcaoLivro.dataset.id = livro.id;
         btnAcaoLivro.classList.add("btn-emprestar");
 
-        const btnRemoverLivro = document.createElement("button");
-        btnRemoverLivro.textContent = "Remover";
-        btnRemoverLivro.dataset.id = livro.id;
-        btnRemoverLivro.classList.add("btn-remover");
-
-        const btnEditarLivro = document.createElement("button");
-        btnEditarLivro.textContent = "Editar";
-        btnEditarLivro.dataset.id = livro.id;
-        btnEditarLivro.classList.add("btn-editar");
+        divCategoria.appendChild(categoria);
+        divLivro.appendChild(divCategoria);
 
         divLivro.appendChild(btnAcaoLivro);
 
-        if (livro.disponivel) {
-            divLivro.appendChild(btnRemoverLivro);
-        }
-
-        divLivro.appendChild(btnEditarLivro);
         divLivro.appendChild(imagem);
         divLivro.appendChild(titulo);
         divLivro.appendChild(autor);
 
-        divCategoria.appendChild(imgCategoria);
-        divCategoria.appendChild(categoria);
-        divLivro.appendChild(divCategoria);
+        btnMais.appendChild(imgCategoria);
+        divCategoria.appendChild(btnMais);
 
         divLivro.appendChild(hr);
 
@@ -97,21 +88,6 @@ export function exibirLivros(listaLivros, elementos, atualizarLista, editarLivro
             }
 
             atualizarLista();
-        });
-
-        btnRemoverLivro.addEventListener("click", () => {
-            const confirmacao = confirm(
-                "Tem certeza que deseja remover esse livro?"
-            );
-
-            if (confirmacao) {
-                removerLivro(livro.id);
-                atualizarLista();
-            }
-        });
-
-        btnEditarLivro.addEventListener("click", () => {
-            editarLivro(livro);
         });
 
         if (livro === listaLivros[tamanhoLista]) {
@@ -141,5 +117,51 @@ export function exibirLivros(listaLivros, elementos, atualizarLista, editarLivro
                 document.body.style.overflow = "hidden";
             });
         }
+
+        btnMais.addEventListener("click", (evento) => {
+            if (document.querySelector(".div-acoes")) return;
+
+            const div = document.createElement("div");
+            div.classList.add("div-acoes");
+
+            const btnRemoverLivro = document.createElement("button");
+            btnRemoverLivro.textContent = "Remover";
+            btnRemoverLivro.dataset.id = livro.id;
+            btnRemoverLivro.classList.add("btn-remover");
+
+            const btnEditarLivro = document.createElement("button");
+            btnEditarLivro.textContent = "Editar";
+            btnEditarLivro.dataset.id = livro.id;
+            btnEditarLivro.classList.add("btn-editar");
+
+            div.appendChild(btnEditarLivro);
+            div.appendChild(btnRemoverLivro);
+
+            divLivro.appendChild(div);
+
+            function fecharDiv(e) {
+                if (div.contains(e.target)) return;
+
+                div.remove();
+                document.removeEventListener('click', fecharDiv);
+            }
+
+            setTimeout(() => {
+                document.addEventListener('click', fecharDiv);
+            }, 0);
+
+            btnRemoverLivro.addEventListener("click", () => {
+                const confirmacao = confirm("Tem certeza que deseja remover esse livro?");
+
+                if (confirmacao) {
+                    removerLivro(livro.id);
+                    atualizarLista();
+                }
+            });
+
+            btnEditarLivro.addEventListener("click", () => {
+                editarLivro(livro);
+            });
+        });
     });
 }
