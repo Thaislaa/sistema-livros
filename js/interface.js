@@ -128,11 +128,18 @@ export function exibirLivros(listaLivros, elementos, atualizarLista, editarLivro
             btnRemoverLivro.textContent = "Remover";
             btnRemoverLivro.dataset.id = livro.id;
             btnRemoverLivro.classList.add("btn-remover");
+            const imgRemover = document.createElement("img");
+            imgRemover.src = "img/lixeira.png";
 
             const btnEditarLivro = document.createElement("button");
             btnEditarLivro.textContent = "Editar";
             btnEditarLivro.dataset.id = livro.id;
             btnEditarLivro.classList.add("btn-editar");
+            const imgEditar = document.createElement("img");
+            imgEditar.src = "img/lapis.png";
+
+            btnEditarLivro.appendChild(imgEditar);
+            btnRemoverLivro.appendChild(imgRemover);
 
             div.appendChild(btnEditarLivro);
             div.appendChild(btnRemoverLivro);
