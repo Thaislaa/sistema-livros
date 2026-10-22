@@ -54,17 +54,23 @@ export function exibirLivros(listaLivros, elementos, atualizarLista, editarLivro
         imagem.src = livro.imagem;
         imagem.alt = livro.titulo;
 
-        const hr = document.createElement("hr");
+        const btnEmprestar = document.createElement("button");
+        const imgEmprestar = document.createElement("img");
+        imgEmprestar.src = "img/logo-livros.png";
+        btnEmprestar.textContent = "Emprestar";
+        btnEmprestar.classList.add("btn-emprestar");
 
-        const btnAcaoLivro = document.createElement("button");
-        btnAcaoLivro.textContent = livro.disponivel ? "Emprestar" : "Devolver";
-        btnAcaoLivro.dataset.id = livro.id;
-        btnAcaoLivro.classList.add("btn-emprestar");
+        const btnDevolver = document.createElement("button");
+        const imgDevolver = document.createElement("img");
+        imgDevolver.src = "img/devolver.png";
+        btnDevolver.textContent = "Devolver";
+        btnDevolver.classList.add("btn-devolver");
+
+        btnEmprestar.appendChild(imgEmprestar);
+        btnDevolver.appendChild(imgDevolver);
 
         divCategoria.appendChild(categoria);
         divLivro.appendChild(divCategoria);
-
-        divLivro.appendChild(btnAcaoLivro);
 
         divLivro.appendChild(imagem);
         divLivro.appendChild(titulo);
@@ -73,22 +79,16 @@ export function exibirLivros(listaLivros, elementos, atualizarLista, editarLivro
         btnMais.appendChild(imgCategoria);
         divCategoria.appendChild(btnMais);
 
-        divLivro.appendChild(hr);
-
         divDisponibilidade.appendChild(disponivel);
         divLivro.appendChild(divDisponibilidade);
 
+        if (livro.disponivel) {
+            divLivro.appendChild(btnEmprestar);
+        } else {
+            divLivro.appendChild(btnDevolver);
+        }
+
         divLivros.appendChild(divLivro);
-
-        btnAcaoLivro.addEventListener("click", () => {
-            if (livro.disponivel) {
-                emprestarLivro(livro.id);
-            } else {
-                devolverLivro(livro.id);
-            }
-
-            atualizarLista();
-        });
 
         if (livro === listaLivros[tamanhoLista]) {
             const btnAddLivro = document.createElement("button");
@@ -162,6 +162,26 @@ export function exibirLivros(listaLivros, elementos, atualizarLista, editarLivro
             btnEditarLivro.addEventListener("click", () => {
                 editarLivro(livro);
             });
+        });
+
+        btnEmprestar.addEventListener("click", () => {
+            if (livro.disponivel) {
+                emprestarLivro(livro.id);
+            } else {
+                devolverLivro(livro.id);
+            }
+
+            atualizarLista();
+        });
+
+        btnDevolver.addEventListener("click", () => {
+            if (livro.disponivel) {
+                emprestarLivro(livro.id);
+            } else {
+                devolverLivro(livro.id);
+            }
+
+            atualizarLista();
         });
     });
 }
