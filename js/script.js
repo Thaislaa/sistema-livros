@@ -77,16 +77,25 @@ function iniciarEdicao(livro) {
 
     document.querySelector(".title-cadastro").textContent = "Editar livro";
 
+    const modalCadastro = document.querySelector("#modalCadastro");
+    modalCadastro.style.display = "flex";
+    document.body.style.overflow = "hidden";
+
     titulo.value = livro.titulo;
     autor.value = livro.autor;
     categoria.value = livro.categoria;
     imagem.value = livro.imagem;
+
 }
 
 // LIMPA O ESTADO DE EDIÇÃO
 function finalizarEdicao() {
     idLivroEmEdicao = null;
     document.querySelector(".title-cadastro").textContent = "Cadastrar livro";
+
+    const modalCadastro = document.querySelector("#modalCadastro");
+    modalCadastro.style.display = "none";
+    document.body.style.overflow = "";
 }
 
 // EXIBE OS LIVROS INICIALMENTE
