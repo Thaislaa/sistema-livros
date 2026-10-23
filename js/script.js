@@ -115,9 +115,8 @@ btnLimparFiltros.addEventListener("click", () => {
 });
 
 btnFecharForm.addEventListener("click", () => {
-    const modalCadastro = document.querySelector("#modalCadastro");
-    modalCadastro.style.display = "none";
-    document.body.style.overflow = "";
+    form.reset();
+    finalizarEdicao();
 });
 
 // CADASTRAR E EDITAR LIVROS
@@ -189,6 +188,7 @@ form.addEventListener("submit", (event) => {
 
         livrosAtuais.push(novoLivro);
         salvarLivros();
+        finalizarEdicao();
     }
 
     form.reset();

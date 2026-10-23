@@ -9,8 +9,6 @@ import {
 export function exibirLivros(listaLivros, elementos, atualizarLista, editarLivro) {
     const { divLivros, divMensagemNaoEncontrado } = elementos;
 
-    const tamanhoLista = listaLivros.length - 1;
-
     divLivros.innerHTML = "";
     divMensagemNaoEncontrado.innerHTML = "";
 
@@ -28,7 +26,7 @@ export function exibirLivros(listaLivros, elementos, atualizarLista, editarLivro
         divCategoria.className = "div-categoria";
 
         const btnMais = document.createElement("button");
-        btnMais.id = "btnTresPontos";
+        btnMais.classList.add("btnTresPontos");
 
         const imgCategoria = document.createElement("img");
         imgCategoria.src = "img/tres-pontos.png";
@@ -89,34 +87,6 @@ export function exibirLivros(listaLivros, elementos, atualizarLista, editarLivro
         }
 
         divLivros.appendChild(divLivro);
-
-        if (livro === listaLivros[tamanhoLista]) {
-            const btnAddLivro = document.createElement("button");
-            btnAddLivro.classList.add("btn-add-Livro");
-            btnAddLivro.id = "btnAbrirCadastro";
-
-            const imgMais = document.createElement("img");
-            imgMais.src = "../img/icon-mais.png";
-
-            const divAdd = document.createElement("div");
-            divAdd.classList.add("div-btn-AddLivros");
-
-            const textoAdd = document.createElement("p");
-            textoAdd.textContent = "Adicionar novo livro";
-
-            btnAddLivro.appendChild(imgMais);
-
-            divAdd.appendChild(btnAddLivro);
-            divAdd.appendChild(textoAdd);
-
-            divLivros.appendChild(divAdd);
-
-            btnAddLivro.addEventListener("click", () => {
-                const modalCadastro = document.querySelector("#modalCadastro");
-                modalCadastro.style.display = "flex";
-                document.body.style.overflow = "hidden";
-            });
-        }
 
         btnMais.addEventListener("click", (evento) => {
             if (document.querySelector(".div-acoes")) return;
@@ -190,5 +160,31 @@ export function exibirLivros(listaLivros, elementos, atualizarLista, editarLivro
 
             atualizarLista();
         });
+    });
+
+    const btnAddLivro = document.createElement("button");
+    btnAddLivro.classList.add("btn-add-Livro");
+    btnAddLivro.id = "btnAbrirCadastro";
+
+    const imgMais = document.createElement("img");
+    imgMais.src = "img/icon-mais.png";
+
+    const divAdd = document.createElement("div");
+    divAdd.classList.add("div-btn-AddLivros");
+
+    const textoAdd = document.createElement("p");
+    textoAdd.textContent = "Adicionar novo livro";
+
+    btnAddLivro.appendChild(imgMais);
+
+    divAdd.appendChild(btnAddLivro);
+    divAdd.appendChild(textoAdd);
+
+    divLivros.appendChild(divAdd);
+
+    btnAddLivro.addEventListener("click", () => {
+        const modalCadastro = document.querySelector("#modalCadastro");
+        modalCadastro.style.display = "flex";
+        document.body.style.overflow = "hidden";
     });
 }
